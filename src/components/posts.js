@@ -22,16 +22,6 @@ class Posts extends Component {
     return (
       <div id="postscontainer">
         <div id="posts">
-          <Link to="/57a503230379422200b2ff9f" key="57a503230379422200b2ff9f" style={{ textDecoration: 'none' }}>
-            <div id="pinnedpost">
-              <div>
-                Welcome to The Goldstein Blog! Click here to learn more about it!
-              </div>
-              <div id="pin">
-                <i className="fa fa-map-marker" aria-hidden="true"></i> pinned post
-              </div>
-            </div>
-          </Link>
           <br /><br />
           {this.props.posts.map((post) =>
             <Link to={`${post.id}`} id="postlink" key={post.id} style={{ textDecoration: 'none' }}>
