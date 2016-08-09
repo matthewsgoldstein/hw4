@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
 
-const ROOT_URL = 'https://cs52hw5.herokuapp.com/';
+const ROOT_URL = 'https://cs52hw5.herokuapp.com';
 const API_KEY = '?key=matthew_goldstein';
 
 // keys for actiontypes
