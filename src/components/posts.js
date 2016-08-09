@@ -22,7 +22,6 @@ class Posts extends Component {
     return (
       <div id="postscontainer">
         <div id="posts">
-          <br /><br />
           {this.props.posts.map((post) =>
             <Link to={`${post.id}`} id="postlink" key={post.id} style={{ textDecoration: 'none' }}>
               <div id="post">
