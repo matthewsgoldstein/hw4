@@ -21,7 +21,6 @@ class Signin extends Component {
   onSubmit(event) {
     event.preventDefault();
     this.props.signinUser({ email: this.state.email, password: this.state.password });
-    browserHistory.push('/');
   }
 
   render() {
@@ -33,7 +32,7 @@ class Signin extends Component {
           <input type="text" placeholder="email" id="title" onChange={(event) => this.setState({ email: event.target.value })} />
           <input type="password" placeholder="password" id="tags" onChange={(event) => this.setState({ password: event.target.value })} />
           <div id="submitbuttons">
-            <Link to="/" onClick={this.onSubmit}>Sign In</Link>
+            <div id="subbutton" onClick={this.onSubmit}>Sign In</div>
           </div>
         </div>
       </div>

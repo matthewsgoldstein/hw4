@@ -21,11 +21,9 @@ class Signup extends Component {
 
   onSubmit(event) {
     event.preventDefault();
-    console.log(this.state.email);
-    console.log(this.state.username);
-    console.log(this.state.password);
-    this.props.signupUser({ email: this.state.email, username: this.state.username, password: this.state.password });
-    browserHistory.push('/');
+    if (this.state.password === this.state.passwordConfirm) {
+      this.props.signupUser({ email: this.state.email, username: this.state.username, password: this.state.password, passwordConfirm: this.state.passwordConfirm });
+    }
   }
 
   render() {
@@ -38,7 +36,7 @@ class Signup extends Component {
           <input type="password" placeholder="password" id="tags" onChange={(event) => this.setState({ password: event.target.value })} />
           <input type="password" placeholder="confirm password" id="tags" onChange={(event) => this.setState({ passwordConfirm: event.target.value })} />
           <div id="submitbuttons">
-            <Link to="/" onClick={this.onSubmit}>Sign Up</Link>
+            <div id="subbutton" onClick={this.onSubmit}>Sign Up</div>
           </div>
         </div>
       </div>
