@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import * as actions from '../actions';
+import { connect } from 'react-redux';
 
 // example class based component (smart component)
 class Navbar extends Component {
@@ -8,22 +10,57 @@ class Navbar extends Component {
 
     // init component state here
     this.state = {};
+
+    this.onSubmit = this.onSubmit.bind(this);
+  }
+
+  onSubmit(event) {
+    event.preventDefault();
+    this.props.signoutUser();
   }
 
   render() {
-    return (
-      <div>
-        <div id="header">
-          <Link to="/" id="name">The Goldstein Blog</Link>
-          <div id="menu">
-            <Link to="/" id="name"><i className="fa fa-home" aria-hidden="true"></i></Link>&nbsp;&nbsp;&nbsp;
-            <Link to="/new" id="createlink"><i className="fa fa-plus" aria-hidden="true"></i></Link>
+    if (this.props.authenticated) {
+      return (
+        <div>
+          <div id="header">
+            <Link to="/" id="name">The Goldstein Blog</Link>
+            <div id="menu">
+              <Link to="/" id="name"><i className="fa fa-home" aria-hidden="true"></i></Link>&nbsp;&nbsp;&nbsp;
+              <Link to="/posts/new" id="createlink"><i className="fa fa-plus" aria-hidden="true"></i></Link>&nbsp;&nbsp;&nbsp;
+              <div className="signlinks">
+                <Link to="/" className="signlink" onClick={this.onSubmit}>Sign Out</Link>
+              </div>
+            </div>
           </div>
+          {this.props.children}
         </div>
-        {this.props.children}
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div>
+          <div id="header">
+            <Link to="/" id="name">The Goldstein Blog</Link>
+            <div id="menu">
+              <Link to="/" id="name"><i className="fa fa-home" aria-hidden="true"></i></Link>&nbsp;&nbsp;&nbsp;
+              <Link to="/posts/new" id="createlink"><i className="fa fa-plus" aria-hidden="true"></i></Link>&nbsp;&nbsp;&nbsp;
+              <div className="signlinks">
+                <Link to="/signin" className="signlink">Sign In</Link>&nbsp;&nbsp;&nbsp;
+                <Link to="/signup" className="signlink">Sign Up</Link>
+              </div>
+            </div>
+          </div>
+          {this.props.children}
+        </div>
+      );
+    }
   }
 }
 
-export default Navbar;
+const mapStateToProps = (state) => (
+  {
+    authenticated: state.auth.authenticated,
+  }
+);
+
+export default connect(mapStateToProps, actions)(Navbar);

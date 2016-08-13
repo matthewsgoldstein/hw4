@@ -9,7 +9,19 @@ export const ActionTypes = {
   FETCH_POSTS: 'FETCH_POSTS',
   FETCH_POST: 'FETCH_POST',
   UPDATE_POST: 'UPDATE_POST',
+  AUTH_USER: 'AUTH_USER',
+  DEAUTH_USER: 'DEAUTH_USER',
+  AUTH_ERROR: 'AUTH_ERROR',
 };
+
+// trigger to deauth if there is error
+// can also use in your error reducer if you have one to display an error message
+export function authError(error) {
+  return {
+    type: ActionTypes.AUTH_ERROR,
+    message: error,
+  };
+}
 
 export function fetchPosts() {
   return (dispatch) => {
@@ -52,6 +64,7 @@ export function fetchPost(id) {
 export function createPost(post) {
   return (dispatch) => {
     const fields = { title: post.title, content: post.content, tags: post.tags };
+    axios.post(`${ROOT_URL}/posts`, { headers: { authorization: localStorage.getItem('token') }, data: post });
     axios.post(`${ROOT_URL}/posts/${API_KEY}`, fields).then(response => {
       browserHistory.push('/');
     });
@@ -63,5 +76,57 @@ export function deletePost(id) {
     axios.delete(`${ROOT_URL}/posts/${id}${API_KEY}`).then(response => {
       browserHistory.push('/');
     });
+  };
+}
+
+export function signinUser({ email, password }) {
+  // takes in an object with email and password (minimal user object)
+  // returns a thunk method that takes dispatch as an argument (just like our create post method really)
+  // does an axios.post on the /signin endpoint
+  // on success does:
+  //  dispatch({ type: ActionTypes.AUTH_USER });
+  //  localStorage.setItem('token', response.data.token);
+  // on error should dispatch(authError(`Sign In Failed: ${error.response.data}`));
+  return (dispatch) => {
+    const fields = { email, password };
+    axios.post(`${ROOT_URL}/posts/signin`, fields).then(response => {
+      dispatch({ type: ActionTypes.AUTH_USER });
+      localStorage.setItem('token', response.data.token);
+      browserHistory.push('/');
+    }).catch(error => {
+      dispatch(authError(`Sign In Failed: ${error.response.data}`));
+    });
+  };
+}
+
+
+export function signupUser({ email, password }) {
+  // takes in an object with email and password (minimal user object)
+  // returns a thunk method that takes dispatch as an argument (just like our create post method really)
+  // does an axios.post on the /signup endpoint (only difference from above)
+  // on success does:
+  //  dispatch({ type: ActionTypes.AUTH_USER });
+  //  localStorage.setItem('token', response.data.token);
+  // on error should dispatch(authError(`Sign Up Failed: ${error.response.data}`));
+  return (dispatch) => {
+    const fields = { email, password };
+    axios.post(`${ROOT_URL}/posts/signup`, fields).then(response => {
+      dispatch({ type: ActionTypes.AUTH_USER });
+      localStorage.setItem('token', response.data.token);
+      browserHistory.push('/');
+    }).catch(error => {
+      dispatch(authError(`Sign Up Failed: ${error.response.data}`));
+    });
+  };
+}
+
+
+// deletes token from localstorage
+// and deauths
+export function signoutUser() {
+  return (dispatch) => {
+    localStorage.removeItem('token');
+    dispatch({ type: ActionTypes.DEAUTH_USER });
+    browserHistory.push('/');
   };
 }
