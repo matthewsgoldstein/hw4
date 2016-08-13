@@ -7,16 +7,12 @@ export default function (ComposedComponent) {
     componentWillMount() {
       if (!this.props.authenticated) {
         browserHistory.push('/signin');
-      } else {
-        browserHistory.push('/new');
       }
     }
 
     componentWillUpdate(nextProps) {
       if (!nextProps.authenticated) {
         browserHistory.push('/signin');
-      } else {
-        browserHistory.push('/new');
       }
     }
 

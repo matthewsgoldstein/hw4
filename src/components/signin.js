@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import * as actions from '../actions';
 import { connect } from 'react-redux';
 
@@ -9,18 +9,19 @@ class Signin extends Component {
     super(props);
 
     // init component state here
-    this.state = {};
+    this.state = {
+      email: '',
+      username: '',
+      password: '',
+    };
 
     this.onSubmit = this.onSubmit.bind(this);
   }
 
   onSubmit(event) {
     event.preventDefault();
-    const auth = {
-      email: this.state.email,
-      password: this.state.password,
-    };
-    this.props.signinUser(auth);
+    this.props.signinUser({ email: this.state.email, password: this.state.password });
+    browserHistory.push('/');
   }
 
   render() {
@@ -28,7 +29,8 @@ class Signin extends Component {
       <div id="newcontainer">
         <div id="new">
           <h2>Sign In</h2>
-          <input type="text" placeholder="email/username" id="title" onChange={(event) => this.setState({ email: event.target.value })} />
+          <center><p>No account? <Link to="/signup">Sign up!</Link></p></center>
+          <input type="text" placeholder="email" id="title" onChange={(event) => this.setState({ email: event.target.value })} />
           <input type="password" placeholder="password" id="tags" onChange={(event) => this.setState({ password: event.target.value })} />
           <div id="submitbuttons">
             <Link to="/" onClick={this.onSubmit}>Sign In</Link>

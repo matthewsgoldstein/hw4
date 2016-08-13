@@ -34,6 +34,7 @@ class Show extends Component {
       tags: this.state.tags,
       content: this.state.content,
       id: this.props.params.id,
+      author: this.state.author,
     };
 
     this.props.updatePost(post);
@@ -41,35 +42,51 @@ class Show extends Component {
 
   render() {
     console.log(this.props.current);
-    if (!this.state.editing) {
+    if (this.props.authenticated) {
+      if (!this.state.editing) {
+        return (
+          <div id="showcontainer">
+            <div id="show">
+              <div id="showtitle">
+                <h1> {this.props.current.title} </h1>
+                <div id="showtitleicons">
+                  <i id="editicon" className="fa fa-pencil fa-2x" aria-hidden="true" onClick={this.onEdit}></i>&nbsp;
+                  <i id="trash" onClick={() => { this.props.deletePost(this.props.params.id); }} className="fa fa-trash fa-2x" aria-hidden="true"></i>
+                </div>
+              </div>
+              <h4> by {this.props.current.author} </h4>
+              <h5> tags: {this.props.current.tags} </h5>
+              <div id="postcontent" dangerouslySetInnerHTML={{ __html: marked(this.props.current.content || '') }} />
+            </div>
+          </div>
+        );
+      } else {
+        return (
+          <div id="editcontainer">
+            <div id="edit">
+              <div id="titlebar">
+                Edit title: <Textarea id="titletextarea" defaultValue={this.props.current.title} onChange={(event) => this.setState({ title: event.target.value })} />
+              </div>
+              <div id="edittags">Edit tags: <Textarea id="textarea" defaultValue={this.props.current.tags} onChange={(event) => this.setState({ tags: event.target.value })} /></div>
+              <div id="editcontent">Edit content: <Textarea id="textarea" defaultValue={this.props.current.content} onChange={(event) => this.setState({ content: event.target.value })} /></div>
+              <div id="icons">
+                <i id="checkicon" className="fa fa-check fa-2x" aria-hidden="true" onClick={this.onSubmit}></i>
+                <i id="trashedit" onClick={() => { this.props.deletePost(this.props.params.id); }} className="fa fa-trash fa-2x" aria-hidden="true"></i>
+              </div>
+            </div>
+          </div>
+        );
+      }
+    } else {
       return (
         <div id="showcontainer">
           <div id="show">
             <div id="showtitle">
               <h1> {this.props.current.title} </h1>
-              <div id="showtitleicons">
-                <i id="editicon" className="fa fa-pencil fa-2x" aria-hidden="true" onClick={this.onEdit}></i>&nbsp;
-                <i id="trash" onClick={() => { this.props.deletePost(this.props.params.id); }} className="fa fa-trash fa-2x" aria-hidden="true"></i>
-              </div>
             </div>
+            <h4> by {this.props.current.author} </h4>
             <h5> tags: {this.props.current.tags} </h5>
             <div id="postcontent" dangerouslySetInnerHTML={{ __html: marked(this.props.current.content || '') }} />
-          </div>
-        </div>
-      );
-    } else {
-      return (
-        <div id="editcontainer">
-          <div id="edit">
-            <div id="titlebar">
-              Edit title: <Textarea id="titletextarea" defaultValue={this.props.current.title} onChange={(event) => this.setState({ title: event.target.value })} />
-            </div>
-            <div id="edittags">Edit tags: <Textarea id="textarea" defaultValue={this.props.current.tags} onChange={(event) => this.setState({ tags: event.target.value })} /></div>
-            <div id="editcontent">Edit content: <Textarea id="textarea" defaultValue={this.props.current.content} onChange={(event) => this.setState({ content: event.target.value })} /></div>
-            <div id="icons">
-              <i id="checkicon" className="fa fa-check fa-2x" aria-hidden="true" onClick={this.onSubmit}></i>
-              <i id="trashedit" onClick={() => { this.props.deletePost(this.props.params.id); }} className="fa fa-trash fa-2x" aria-hidden="true"></i>
-            </div>
           </div>
         </div>
       );
@@ -80,6 +97,7 @@ class Show extends Component {
 const mapStateToProps = (state) => (
   {
     current: state.posts.current,
+    authenticated: state.auth.authenticated,
   }
 );
 

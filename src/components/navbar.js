@@ -27,7 +27,7 @@ class Navbar extends Component {
             <Link to="/" id="name">The Goldstein Blog</Link>
             <div id="menu">
               <Link to="/" id="name"><i className="fa fa-home" aria-hidden="true"></i></Link>&nbsp;&nbsp;&nbsp;
-              <Link to="/posts/new" id="createlink"><i className="fa fa-plus" aria-hidden="true"></i></Link>&nbsp;&nbsp;&nbsp;
+              <Link to="/new" id="createlink"><i className="fa fa-plus" aria-hidden="true"></i></Link>&nbsp;&nbsp;&nbsp;
               <div className="signlinks">
                 <Link to="/" className="signlink" onClick={this.onSubmit}>Sign Out</Link>
               </div>
@@ -43,10 +43,8 @@ class Navbar extends Component {
             <Link to="/" id="name">The Goldstein Blog</Link>
             <div id="menu">
               <Link to="/" id="name"><i className="fa fa-home" aria-hidden="true"></i></Link>&nbsp;&nbsp;&nbsp;
-              <Link to="/posts/new" id="createlink"><i className="fa fa-plus" aria-hidden="true"></i></Link>&nbsp;&nbsp;&nbsp;
               <div className="signlinks">
                 <Link to="/signin" className="signlink">Sign In</Link>&nbsp;&nbsp;&nbsp;
-                <Link to="/signup" className="signlink">Sign Up</Link>
               </div>
             </div>
           </div>

@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
 
-const ROOT_URL = 'https://cs52hw5.herokuapp.com/api';
+// const ROOT_URL = 'https://cs52hw5.herokuapp.com/api';
+const ROOT_URL = 'http://localhost:9090/api';
 const API_KEY = '?key=matthew_goldstein';
 
 // keys for actiontypes
@@ -39,7 +40,7 @@ export function fetchPosts() {
 export function updatePost(post) {
   return (dispatch) => {
     const fields = { title: post.title, content: post.content, tags: post.tags };
-    axios.put(`${ROOT_URL}/posts/${post.id}${API_KEY}`, fields).then(response => {
+    axios.put(`${ROOT_URL}/posts/${post.id}${API_KEY}`, fields, { headers: { authorization: localStorage.getItem('token') } }).then(response => {
       dispatch({ type: ActionTypes.UPDATE_POST, payload: response.data });
       location.reload();
     });
@@ -63,9 +64,7 @@ export function fetchPost(id) {
 
 export function createPost(post) {
   return (dispatch) => {
-    const fields = { title: post.title, content: post.content, tags: post.tags };
-    axios.post(`${ROOT_URL}/posts`, { headers: { authorization: localStorage.getItem('token') }, data: post });
-    axios.post(`${ROOT_URL}/posts/${API_KEY}`, fields).then(response => {
+    axios.post(`${ROOT_URL}/posts/${API_KEY}`, post, { headers: { authorization: localStorage.getItem('token') } }).then(response => {
       browserHistory.push('/');
     });
   };
@@ -73,7 +72,7 @@ export function createPost(post) {
 
 export function deletePost(id) {
   return (dispatch) => {
-    axios.delete(`${ROOT_URL}/posts/${id}${API_KEY}`).then(response => {
+    axios.delete(`${ROOT_URL}/posts/${id}${API_KEY}`, { headers: { authorization: localStorage.getItem('token') } }).then(response => {
       browserHistory.push('/');
     });
   };
@@ -89,7 +88,7 @@ export function signinUser({ email, password }) {
   // on error should dispatch(authError(`Sign In Failed: ${error.response.data}`));
   return (dispatch) => {
     const fields = { email, password };
-    axios.post(`${ROOT_URL}/posts/signin`, fields).then(response => {
+    axios.post(`${ROOT_URL}/signin`, fields).then(response => {
       dispatch({ type: ActionTypes.AUTH_USER });
       localStorage.setItem('token', response.data.token);
       browserHistory.push('/');
@@ -100,7 +99,7 @@ export function signinUser({ email, password }) {
 }
 
 
-export function signupUser({ email, password }) {
+export function signupUser({ email, username, password, passwordConfirm }) {
   // takes in an object with email and password (minimal user object)
   // returns a thunk method that takes dispatch as an argument (just like our create post method really)
   // does an axios.post on the /signup endpoint (only difference from above)
@@ -109,11 +108,11 @@ export function signupUser({ email, password }) {
   //  localStorage.setItem('token', response.data.token);
   // on error should dispatch(authError(`Sign Up Failed: ${error.response.data}`));
   return (dispatch) => {
-    const fields = { email, password };
-    axios.post(`${ROOT_URL}/posts/signup`, fields).then(response => {
+    const fields = { email, username, password, passwordConfirm };
+    axios.post(`${ROOT_URL}/signup`, fields).then(response => {
       dispatch({ type: ActionTypes.AUTH_USER });
       localStorage.setItem('token', response.data.token);
-      browserHistory.push('/');
+      browserHistory.push('/welcome');
     }).catch(error => {
       dispatch(authError(`Sign Up Failed: ${error.response.data}`));
     });

@@ -61,6 +61,9 @@ body {
 }
 
 #post {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   font-family: 'Roboto', sans-serif;
   font-size: 20px;
   text-decoration: none;
@@ -214,4 +217,9 @@ footer {
 
 .signlinks {
   margin-top: 15px;
+}
+
+#postauthor {
+  font-size: 14px;
+  margin-top: 4px;
 }
