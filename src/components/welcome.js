@@ -18,7 +18,10 @@ class Welcome extends Component {
             <h1> Welcome to the blog! </h1>
           </div>
           <h3> You can now post, edit, and do other cool stuff! </h3>
-          <center><Link to="/">Take me home!</Link></center>
+          <center>
+            <Link to="/" className="submitnew">Take me home</Link>&nbsp;OR&nbsp;
+            <Link to="/new" className="submitnew">Create a post</Link>
+          </center>
         </div>
       </div>
     );

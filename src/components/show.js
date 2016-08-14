@@ -65,14 +65,18 @@ class Show extends Component {
           <div id="editcontainer">
             <div id="edit">
               <div id="titlebar">
-                Edit title: <Textarea id="titletextarea" defaultValue={this.props.current.title} onChange={(event) => this.setState({ title: event.target.value })} />
+                <div>Edit title: <Textarea id="titletextarea" defaultValue={this.props.current.title} onChange={(event) => this.setState({ title: event.target.value })} /></div>
+                <div id="icons">
+                  <i id="checkicon" className="fa fa-check fa-2x" aria-hidden="true" onClick={this.onSubmit}></i>
+                  <i id="trashedit" onClick={() => { this.props.deletePost(this.props.params.id); }} className="fa fa-trash fa-2x" aria-hidden="true"></i>
+                </div>
               </div>
               <div id="edittags">Edit tags: <Textarea id="textarea" defaultValue={this.props.current.tags} onChange={(event) => this.setState({ tags: event.target.value })} /></div>
               <div id="editcontent">Edit content: <Textarea id="textarea" defaultValue={this.props.current.content} onChange={(event) => this.setState({ content: event.target.value })} /></div>
-              <div id="icons">
-                <i id="checkicon" className="fa fa-check fa-2x" aria-hidden="true" onClick={this.onSubmit}></i>
-                <i id="trashedit" onClick={() => { this.props.deletePost(this.props.params.id); }} className="fa fa-trash fa-2x" aria-hidden="true"></i>
-              </div>
+              <br />
+              <div>Post Preview (hint: change content to display below!):</div>
+              <br />
+              <div id="editpreviewcontent" dangerouslySetInnerHTML={{ __html: marked(event.target.value || '') }} />
             </div>
           </div>
         );

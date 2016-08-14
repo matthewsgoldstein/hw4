@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Textarea from 'react-textarea-autosize';
-import { browserHistory } from 'react-router';
 import * as actions from '../actions';
 import { connect } from 'react-redux';
 import Error from './error';
@@ -24,7 +23,7 @@ class New extends Component {
       content: this.state.content,
     };
     if (!this.state.title || !this.state.content) {
-      this.props.displayErrorNew();
+      this.props.displayErrorIncomplete();
     } else {
       this.props.createPost(post);
     }
@@ -40,8 +39,6 @@ class New extends Component {
           <Textarea placeholder="content" id="contentnew" onChange={(event) => this.setState({ content: event.target.value })} />
           <div id="submitbuttons">
             <div className="submitnew" onClick={this.onSubmit}>Submit</div>
-            &nbsp;&nbsp;
-            <div className="submitnew">Cancel</div>
           </div>
           <div id="error">
             <Error />

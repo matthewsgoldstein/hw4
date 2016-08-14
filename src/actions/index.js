@@ -142,6 +142,7 @@ export function signupUser({ email, username, password, passwordConfirm }) {
     axios.post(`${ROOT_URL}/signup`, fields).then(response => {
       dispatch({ type: ActionTypes.AUTH_USER });
       localStorage.setItem('token', response.data.token);
+      browserHistory.push('/welcome');
     }).catch(error => {
       dispatch({ type: ActionTypes.EXISTED });
     });

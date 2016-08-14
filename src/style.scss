@@ -189,6 +189,9 @@ body {
 
 #titlebar {
   margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 #titletextarea {
@@ -249,4 +252,9 @@ footer {
 
 .submitnew:hover {
   text-decoration: underline;
+}
+
+#editpreviewcontent {
+  padding: 10px;
+  border: 1px solid black;
 }
