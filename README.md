@@ -1,8 +1,23 @@
-# hw4
-Homework 4, CS52 16X
+# Frontend for HW 4-5 blogging app
+
+## What I did
+- made a functional blog where you can
+  - sign up
+  - log in
+  - create a post
+  - edit your post
+  - delete your post
+
+## Extra credit:
+- error messages appear in red
+  - bad credentials on login
+  - existing user on signup
+  - passwords don't match on signup
+  - fields not all filled in on login/signup
+- user can only edit/delete own post
+- nice styling
+- "welcome" landing page with options upon signup
+- simultaneous editing/Markdown display when editing a post
+  - works for title, tags, AND content
 
 ## It works! Hooray!
-
-## For extra credit, I styled it nicely (some might say *very* nicely).
-
-### I still don't quite understand how all of the information is passed along through the different components, although I'm fairly sure I have a pretty good idea of it. Also, I really don't get the whole Surge 200.html thing, but I suspect that's sort of trivial.
