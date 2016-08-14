@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Link, browserHistory } from 'react-router';
 import * as actions from '../actions';
 import { connect } from 'react-redux';
+import Error from './error';
 
 // example class based component (smart component)
 class Signup extends Component {
@@ -21,7 +21,12 @@ class Signup extends Component {
 
   onSubmit(event) {
     event.preventDefault();
-    if (this.state.password === this.state.passwordConfirm) {
+    console.log(this.state.password);
+    if (!this.state.password || !this.state.email || !this.state.username || !this.state.passwordConfirm) {
+      this.props.displayErrorIncomplete();
+    } else if (this.state.password !== this.state.passwordConfirm) {
+      this.props.displayErrorMismatch();
+    } else {
       this.props.signupUser({ email: this.state.email, username: this.state.username, password: this.state.password, passwordConfirm: this.state.passwordConfirm });
     }
   }
@@ -37,6 +42,9 @@ class Signup extends Component {
           <input type="password" placeholder="confirm password" id="tags" onChange={(event) => this.setState({ passwordConfirm: event.target.value })} />
           <div id="submitbuttons">
             <div id="subbutton" onClick={this.onSubmit}>Sign Up</div>
+          </div>
+          <div id="error">
+            <Error />
           </div>
         </div>
       </div>

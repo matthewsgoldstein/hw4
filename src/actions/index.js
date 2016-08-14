@@ -13,6 +13,12 @@ export const ActionTypes = {
   AUTH_USER: 'AUTH_USER',
   DEAUTH_USER: 'DEAUTH_USER',
   AUTH_ERROR: 'AUTH_ERROR',
+  BAD_CREDS: 'BAD_CREDS',
+  PASS_MISMATCH: 'PASS_MISMATCH',
+  INCOMPLETE: 'INCOMPLETE',
+  EXISTED: 'EXISTED',
+  TITLE_CONTENT: 'TITLE_CONTENT',
+  MUTE_ERROR: 'MUTE_ERROR',
 };
 
 // trigger to deauth if there is error
@@ -62,6 +68,30 @@ export function fetchPost(id) {
  // can now dispatch stuff
 }
 
+export function displayErrorIncomplete() {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.INCOMPLETE });
+  };
+}
+
+export function displayErrorMismatch() {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.PASS_MISMATCH });
+  };
+}
+
+export function displayErrorNew() {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.TITLE_CONTENT });
+  };
+}
+
+export function muteError() {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.MUTE_ERROR });
+  };
+}
+
 export function createPost(post) {
   return (dispatch) => {
     axios.post(`${ROOT_URL}/posts/${API_KEY}`, post, { headers: { authorization: localStorage.getItem('token') } }).then(response => {
@@ -93,7 +123,7 @@ export function signinUser({ email, password }) {
       localStorage.setItem('token', response.data.token);
       browserHistory.push('/');
     }).catch(error => {
-      dispatch(authError(`Sign In Failed: ${error.response.data}`));
+      dispatch({ type: ActionTypes.BAD_CREDS });
     });
   };
 }
@@ -112,13 +142,11 @@ export function signupUser({ email, username, password, passwordConfirm }) {
     axios.post(`${ROOT_URL}/signup`, fields).then(response => {
       dispatch({ type: ActionTypes.AUTH_USER });
       localStorage.setItem('token', response.data.token);
-      browserHistory.push('/welcome');
     }).catch(error => {
-      dispatch(authError(`Sign Up Failed: ${error.response.data}`));
+      dispatch({ type: ActionTypes.EXISTED });
     });
   };
 }
-
 
 // deletes token from localstorage
 // and deauths

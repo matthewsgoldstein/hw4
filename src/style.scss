@@ -232,3 +232,21 @@ footer {
   font-size: 14px;
   margin-top: 4px;
 }
+
+#error {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.submitnew {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.submitnew:hover {
+  text-decoration: underline;
+}

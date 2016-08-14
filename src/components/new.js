@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Textarea from 'react-textarea-autosize';
-import { Link } from 'react-router';
+import { browserHistory } from 'react-router';
 import * as actions from '../actions';
 import { connect } from 'react-redux';
+import Error from './error';
 
 // example class based component (smart component)
 class New extends Component {
@@ -22,7 +23,11 @@ class New extends Component {
       tags: this.state.tags,
       content: this.state.content,
     };
-    this.props.createPost(post);
+    if (!this.state.title || !this.state.content) {
+      this.props.displayErrorNew();
+    } else {
+      this.props.createPost(post);
+    }
   }
 
   render() {
@@ -34,9 +39,12 @@ class New extends Component {
           <input type="text" placeholder="tags" id="tags" onChange={(event) => this.setState({ tags: event.target.value })} />
           <Textarea placeholder="content" id="contentnew" onChange={(event) => this.setState({ content: event.target.value })} />
           <div id="submitbuttons">
-            <Link to="/" onClick={this.onSubmit}>Submit</Link>
-            <br />
-            <Link to="/" id="cancel">Cancel</Link>
+            <div className="submitnew" onClick={this.onSubmit}>Submit</div>
+            &nbsp;&nbsp;
+            <div className="submitnew">Cancel</div>
+          </div>
+          <div id="error">
+            <Error />
           </div>
         </div>
       </div>
